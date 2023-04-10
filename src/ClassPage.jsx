@@ -1,5 +1,6 @@
 import React from "react";
 import { getRandomUser } from "./Utility/api";
+import Instructor from "./Components/Instructor";
 
 class ClassPage extends React.Component{
     constructor(props){
@@ -73,19 +74,7 @@ class ClassPage extends React.Component{
         console.log("Render Component");
         return (
             <div>
-                {this.state.instructor && (
-                    <div className="p-3">
-                        <span className="h4 text-success">Instructor</span>
-                        &nbsp;
-                        <i className="bi bi-toggle-off btn btn-success btn-sm mb-2 p-1"></i>
-                        <br/>
-                        Name: {this.state.instructor.name}
-                        <br/>
-                        Email: {this.state.instructor.email}
-                        <br/>
-                        Phone: {this.state.instructor.phone}
-                    </div>
-                )}
+                {this.state.instructor && <Instructor instructor={this.state.instructor} />}
                 <div className="p-3">
                     <span className="h4 text-success">Feedback</span>
                     <br/>

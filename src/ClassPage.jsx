@@ -70,11 +70,19 @@ class ClassPage extends React.Component{
         });
     }
 
+    handleToggleInstructor = () => {
+        this.setState(prevState => {
+            return {
+                hideInstructor: !prevState.hideInstructor
+            }
+        });
+    }
+
     render(){
         console.log("Render Component");
         return (
             <div>
-                {this.state.instructor && <Instructor instructor={this.state.instructor} />}
+                {this.state.instructor && <Instructor instructor={this.state.instructor} toggle={this.handleToggleInstructor} hideInstructor={this.state.hideInstructor}/>}
                 <div className="p-3">
                     <span className="h4 text-success">Feedback</span>
                     <br/>

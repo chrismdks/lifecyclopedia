@@ -22,17 +22,23 @@ class ClassPage extends React.Component{
     */
     componentDidMount = async() => {
         console.log("Component Did Mount");
-        const response = await getRandomUser(); //getRandomUser() is an async method so we have to await.
-        console.log(response);
-        this.setState(prevState => {
-            return {
-                instructor: {
-                    name: response.data.first_name + " " + response.data.last_name,
-                    email: response.data.email,
-                    phone: response.data.phone_number
+
+        if (JSON.parse(localStorage.getItem("lifeCyclopediaState"))) {
+            this.setState(JSON.parse(localStorage.getItem("lifeCyclopediaState")));
+        }
+        else{
+            const response = await getRandomUser(); //getRandomUser() is an async method so we have to await.
+            console.log(response);
+            this.setState(prevState => {
+                return {
+                    instructor: {
+                        name: response.data.first_name + " " + response.data.last_name,
+                        email: response.data.email,
+                        phone: response.data.phone_number
+                    }
                 }
-            }
-        });
+            });
+        }
     }
     /**
      * Fetching data in componentDidMount() for instructor it will automatically invoke componentDidUpdate() method.
@@ -40,6 +46,7 @@ class ClassPage extends React.Component{
      */
     componentDidUpdate(){
         console.log("Component Did Update");
+        localStorage.setItem("lifeCyclopediaState",JSON.stringify(this.state));
     }
 
     componentWillUnmount(){

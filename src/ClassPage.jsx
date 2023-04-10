@@ -4,7 +4,7 @@ import { getRandomUser } from "./Utility/api";
 class ClassPage extends React.Component{
     constructor(props){
         super(props);
-        this.state={
+        this.state = JSON.parse(localStorage.getItem("lifeCyclopediaState")) || {
             instructor: undefined,
             studentList: [],
             studentCount: 0,
@@ -24,7 +24,7 @@ class ClassPage extends React.Component{
         console.log("Component Did Mount");
 
         if (JSON.parse(localStorage.getItem("lifeCyclopediaState"))) {
-            this.setState(JSON.parse(localStorage.getItem("lifeCyclopediaState")));
+            //this.setState(JSON.parse(localStorage.getItem("lifeCyclopediaState")));
         }
         else{
             const response = await getRandomUser(); //getRandomUser() is an async method so we have to await.

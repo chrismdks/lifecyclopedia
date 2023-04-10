@@ -45,9 +45,33 @@ class ClassPage extends React.Component{
      * Fetching data in componentDidMount() for instructor it will automatically invoke componentDidUpdate() method.
      * Everytime a component is updated, componentDidUpdate() is called
      */
-    componentDidUpdate(){
+    componentDidUpdate = async (previousProps, previousState) => {
         console.log("Component Did Update");
         localStorage.setItem("lifeCyclopediaState",JSON.stringify(this.state));
+        console.log("Old State - " + previousState.studentCount);
+        console.log("New State - " + this.state.studentCount);
+
+        if (previousState.studentCount < this.state.studentCount) {
+            // New Student added!
+            const response = await getRandomUser();
+            this.setState(prevState => {
+                return {
+                    studentList : [
+                        ...prevState.studentList,{
+                            name : response.data.first_name + " " + response.data.last_name
+                        }
+                    ]
+                }
+            });
+        }
+        else if (previousState.studentCount > this.state.studentCount) {
+            // Remove All
+            this.setState(prevState => {
+                return {
+                    studentList : []
+                }
+            });
+        }
     }
 
     componentWillUnmount(){
@@ -112,6 +136,13 @@ class ClassPage extends React.Component{
                     <button className="btn btn-success btn-sm" onClick={this.handleAddStudent}>Add Student</button>
                     &nbsp;
                     <button className="btn btn-danger btn-sm" onClick={this.handleRemoveAllStudents}>Remove All Students</button>
+
+                    {this.state.studentList.map((student,index) => {
+                        return (
+                            <div className="text-white" key={index}>- {student.name}</div>
+                        )
+                    })}
+
                 </div>
 
             </div>
